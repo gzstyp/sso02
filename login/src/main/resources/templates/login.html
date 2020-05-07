@@ -38,7 +38,8 @@
     </style>
 </head>
 <body style="margin-top:50px">
-<h3>欢迎登录[[${msg}]]</h3>
+<h3>欢迎登录</h3>
+<p style="color:#f00" th:text="${session.msg}"></p>
 <form id="login" name="login" method="post" action="/user/login">
     <div>
         <input type="text" name="username" placeholder="登录账号"/>
