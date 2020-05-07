@@ -1,9 +1,15 @@
 package com.fwtai.controller;
 
+import com.fwtai.pojo.User;
+import com.fwtai.tool.LoginCacheUser;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -18,10 +24,27 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class PageController{
 
+    //跳转到登录页面
     @GetMapping("/login")
-    public String login(@RequestParam(required = false,defaultValue = "") String target,final HttpSession session){
+    public String login(@RequestParam(required = false,defaultValue = "") String target,final HttpServletRequest request,final HttpSession session,@CookieValue(required = false,value = "token") final Cookie cookie){
         if(target == null || target.length() <= 0){
             target = "http://www.codeshop.com:9010/";
+        }
+        final Cookie[] cookies = request.getCookies();
+        if(cookies != null)
+        for(int i = 0; i < cookies.length; i++){
+            Cookie cookie1 = cookies[i];
+            System.out.println(cookie1.getValue());
+        }
+        if(cookie !=null){
+            final String value = cookie.getValue();
+            //如果已登录那直接重定向原url即可
+            if(!StringUtils.isEmpty(value)){
+                final User user = LoginCacheUser.loginUser.get(value);
+                if(user != null){
+                    return "redirect:"+target;
+                }
+            }
         }
         //todo 在正式项目中这个url是要校验 target 是否有效的
         //(存入)重定向url地址,正式项目中这个url是要校验是否有效的

@@ -13,12 +13,15 @@
             text-decoration: none;
             outline:none;
         }
-        h3,form{
+        h3,p,form{
             width:250px;
             margin:0 auto;
         }
         h3{
             padding-left:120px;
+        }
+        p{
+            padding-left:84px;
         }
         form div{
             margin-top:10px;
@@ -40,11 +43,11 @@
 <body style="margin-top:50px">
 <h3>欢迎登录</h3>
 <p style="color:#f00" th:text="${session.msg}"></p>
-<form id="login" name="login" method="post" action="/user/login">
+<form id="login" name="login" method="post" action="/auth">
     <div>
         <input type="text" name="username" placeholder="登录账号"/>
         <input type="password" name="password" placeholder=" 登录密码"/>
-        <button type="submit">登录</button>
+        <button type="submit">登录认证</button>
     </div>
 </form>
 </body>
