@@ -9,4 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>main</artifactId>
+    <description>
+        主域名 www.xxx.com
+    </description>
 </project>

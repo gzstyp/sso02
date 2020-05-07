@@ -10,6 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>login</artifactId>
     <description>
-        登录认证中心
+        登录认证中心 login.xxx.com
     </description>
 </project>
