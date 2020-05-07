@@ -51,7 +51,7 @@ public class LoginController{
             //保存用户登录信息
             LoginCacheUser.loginUser.put(token,optional.get());
             //重定向到 target 地址,响应时写入cookie
-            final Cookie cookie = new Cookie("token",token);
+            final Cookie cookie = new Cookie("token",token);// todo 实际项目中同时采用session和cookie一起使用
             cookie.setDomain("codeshop.com");//这个很重要!!!
             cookie.setPath("/");//这个很重要!!!
             response.addCookie(cookie);
