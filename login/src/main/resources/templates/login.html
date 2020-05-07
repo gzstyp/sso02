@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>登录认证${msg}</title>
+    <style type="text/css">
+        *{
+            padding:0;
+            margin:0;
+        }
+        a:link,a:visited,a:hover,a:active{
+            text-decoration: none;
+            outline:none;
+        }
+        h3,form{
+            width:250px;
+            margin:0 auto;
+        }
+        h3{
+            padding-left:120px;
+        }
+        form div{
+            margin-top:10px;
+        }
+        input{
+            width:200px;
+            height:30px;
+            line-height:30px;
+            padding-left:2px;
+            margin-top:4px;
+        }
+        button{
+            width:206px;
+            margin-top:4px;
+            padding:4px 0;
+        }
+    </style>
+</head>
+<body style="margin-top:50px">
+<h3>欢迎登录</h3>
+<form id="login" name="login" method="post" action="/user/login">
+    <div>
+        <input type="text" name="username" placeholder="登录账号"/>
+        <input type="password" name="password" placeholder=" 登录密码"/>
+        <button type="submit">登录</button>
+    </div>
+</form>
+</body>
+</html>
