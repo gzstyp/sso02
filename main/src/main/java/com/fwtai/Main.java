@@ -10,12 +10,12 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class Main{
 
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
+
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
     }
 }

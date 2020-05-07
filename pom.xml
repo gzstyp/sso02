@@ -13,6 +13,14 @@
         <module>vip</module>
         <module>login</module>
     </modules>
+    <description>
+
+        127.0.0.1 login.codeshop.com:9000/login
+        127.0.0.1 www.codeshop.com:9010
+        127.0.0.1 vip.codeshop.com:9011
+        127.0.0.1 cart.codeshop.com:9012
+
+    </description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
