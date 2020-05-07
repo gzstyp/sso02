@@ -17,7 +17,13 @@
 </head>
 <body>
 <h3 style="margin-top:50px;margin-left:44%;">欢迎来到www.yinlz.com</h3>
-<a href="http://login.codeshop.com:9000/login?target=http://www.codeshop.com:9010/">登录</a>
+<span>
+    <a th:if="${session.user == null}" href="http://login.codeshop.com:9000/login?target=http://www.codeshop.com:9010/">登录</a>
+    <a th:unless="${session.user == null}" href="javascript:;">退出</a>
+</span>
 <br/>
+<p th:unless="${session.user == null}">
+    <span th:text="${session.user.username}"></span>,已登录
+</p>
 </body>
 </html>

@@ -43,10 +43,10 @@
 <body style="margin-top:50px">
 <h3>欢迎登录</h3>
 <p style="color:#f00" th:text="${session.msg}"></p>
-<form id="login" name="login" method="post" action="/auth">
+<form id="login" name="login" method="post" action="/user/auth">
     <div>
-        <input type="text" name="username" placeholder="登录账号"/>
-        <input type="password" name="password" placeholder=" 登录密码"/>
+        <input type="text" name="username" value="admin" placeholder="登录账号"/>
+        <input type="password" name="password" value="123456" placeholder=" 登录密码"/>
         <button type="submit">登录认证</button>
     </div>
 </form>

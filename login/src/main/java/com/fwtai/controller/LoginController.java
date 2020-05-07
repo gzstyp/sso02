@@ -40,7 +40,7 @@ public class LoginController{
         dbUsers.add(new User(4,"typ","123456"));
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/user/auth")
     public String login(final User user,final HttpSession session,final HttpServletResponse response){
         final String target = (String)session.getAttribute("target");
         //模拟数据库登录认证
@@ -64,7 +64,7 @@ public class LoginController{
     }
 
     // 验证token是否有效
-    @GetMapping("/info")
+    @GetMapping("/user/info")
     @ResponseBody
     public ResponseEntity<User> getUserInfo(final String token){
         if(!StringUtils.isEmpty(token)){

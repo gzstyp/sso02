@@ -12,4 +12,7 @@
     <description>
         登录认证中心 login.xxx.com
     </description>
+    <dependencies>
+
+    </dependencies>
 </project>
