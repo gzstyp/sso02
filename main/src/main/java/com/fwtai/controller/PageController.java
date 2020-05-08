@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +34,18 @@ public class PageController{
         if(cookie != null){
             final String token = cookie.getValue();
             if(!StringUtils.isEmpty(token)){
-                final Map map = restTemplate.getForObject("http://login.codeshop.com:9000/user/info?token=" + token,Map.class);
-                session.setAttribute("user",map);
+                final String url = "http://login.codeshop.com:9000/user/info?token=" + token;
+                final Map map = restTemplate.getForObject(url,Map.class);
+                if(map != null && map.size() > 0){
+                    session.setAttribute("user",map.get("user"));
+                    return "index";
+                }else{
+                    session.removeAttribute("user");
+                    return "index";
+                }
             }
         }
+        session.removeAttribute("user");
         return "index";
     }
 }

@@ -19,7 +19,7 @@
 <h3 style="margin-top:50px;margin-left:47%;">欢迎来到VIP</h3>
 <span>
     <a th:if="${session.user == null}" href="http://login.codeshop.com:9000/login?target=http://vip.codeshop.com:9011/">登录</a>
-    <a th:unless="${session.user == null}" href="javascript:;">退出</a>
+    <a th:unless="${session.user == null}" href="http://login.codeshop.com:9000/user/logout?target=http://vip.codeshop.com:9011/">退出</a>
 </span>
 <br/>
 <p th:unless="${session.user == null}">

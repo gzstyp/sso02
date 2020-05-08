@@ -29,13 +29,29 @@ public class PageController{
     // 登录成功后跳转到这个url,同时从认证中心那拿取已登录的身份信息存入到本子系统的 HttpSession 里
     @GetMapping({"/","/index"})
     public String index(@CookieValue(required = false,value = "token") final Cookie cookie,final HttpSession session){
-        if(cookie != null){
+        /*if(cookie != null){
             final String token = cookie.getValue();
             if(!StringUtils.isEmpty(token)){
                 final Map map = restTemplate.getForObject("http://login.codeshop.com:9000/user/info?token=" + token,Map.class);
                 session.setAttribute("user",map);
             }
         }
+        return "index";*/
+        if(cookie != null){
+            final String token = cookie.getValue();
+            if(!StringUtils.isEmpty(token)){
+                final String url = "http://login.codeshop.com:9000/user/info?token=" + token;
+                final Map map = restTemplate.getForObject(url,Map.class);
+                if(map != null && map.size() > 0){
+                    session.setAttribute("user",map.get("user"));
+                    return "index";
+                }else{
+                    session.removeAttribute("user");
+                    return "index";
+                }
+            }
+        }
+        session.removeAttribute("user");
         return "index";
     }
 }

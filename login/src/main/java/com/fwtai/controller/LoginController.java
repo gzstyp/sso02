@@ -6,15 +6,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -50,10 +55,11 @@ public class LoginController{
             final String token = getToken();
             //保存用户登录信息
             LoginCacheUser.loginUser.put(token,optional.get());
-            //重定向到 target 地址,响应时写入cookie
+            //重定向到 target 地址,响应时写入cookie,todo Cookie具有不可跨域名性
             final Cookie cookie = new Cookie("token",token);// todo 实际项目中同时采用session和cookie一起使用
             cookie.setDomain("codeshop.com");//这个很重要!!!
             cookie.setPath("/");//这个很重要!!!
+            cookie.setMaxAge(-1);//该Cookie失效的时间,单位秒;如果为正数,则该Cookie在maxAge秒之后失效;如果为负数,该Cookie为临时Cookie,关闭浏览器即失效,浏览器也不会以任何形式保存该Cookie.如果为0;表示删除该Cookie,默认为–1
             response.addCookie(cookie);
             return "redirect:"+target;
         }else {
@@ -63,17 +69,42 @@ public class LoginController{
         }
     }
 
+    @GetMapping("/user/logout")
+    public String logout(@RequestParam(required = false,defaultValue = "") String target,final HttpServletRequest request,@CookieValue(required = false,value = "token") final Cookie cookie){
+        if(target == null || target.length() <= 0){
+            target = "http://www.codeshop.com:9010/";
+        }
+        if(cookie !=null){
+            final String value = cookie.getValue();
+            //如果已登录那直接重定向原url即可
+            if(!StringUtils.isEmpty(value)){
+                LoginCacheUser.loginUser.remove(value);
+                final Cookie[] cookies = request.getCookies();
+                if(cookies != null){
+                    for(int i = 0; i < cookies.length; i++){
+                        cookies[i].setValue(null);
+                        cookies[i].setMaxAge(0);
+                    }
+                }
+                return "redirect:"+target;
+            }
+        }
+        return "redirect:"+target;
+    }
+
     // 验证token是否有效
     @GetMapping("/user/info")
     @ResponseBody
-    public ResponseEntity<User> getUserInfo(final String token){
+    public Map<String,Object> getUserInfo(final String token){
+        final Map<String,Object> map = new HashMap<>();//防止空指针
         if(!StringUtils.isEmpty(token)){
             final User user = LoginCacheUser.loginUser.get(token);
-            final Optional<User> optional = Optional.ofNullable(user);
-            //return ResponseEntity.of(optional,HttpStatus.OK);
-            return ResponseEntity.of(optional);
+            if(user != null){
+                map.put("user",user);
+                return map;
+            }
         }
-        return new ResponseEntity(null,HttpStatus.BAD_REQUEST);
+        return map;
     }
 
     private String getToken(){

@@ -15,6 +15,12 @@
     </modules>
     <description>
 
+        采用的是cookie登录,但因Cookie具有不可跨域名性，所以只能在同域名中使用,使用Cookie时需注意:
+        cookie.setDomain("codeshop.com");//这个很重要!!!
+        cookie.setPath("/");//这个很重要!!!
+        实际项目中同时采用session和cookie一起使用
+
+
         127.0.0.1 login.codeshop.com:9000/login
         127.0.0.1 www.codeshop.com:9010
         127.0.0.1 vip.codeshop.com:9011
